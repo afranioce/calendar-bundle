@@ -1,0 +1,34 @@
+Afranioce\CalendarBundle\Model\Event:
+    type: entity
+    fields:
+        title:
+              type: string
+              length: 190
+        description:
+              type: text
+        startDate:
+              type: datetime
+              column: start_date
+        endDate:
+              type: datetime
+              column: end_date
+        createdAt:
+              type: datetime
+              column: created_at
+        isFullDay:
+              type: boolean
+              column: is_full_day
+        color:
+              type: string
+              length: 30
+    manyToOne:
+        order:
+            targetEntity: Category
+            mappedBy: events
+    manyToMany:
+        participants:
+            targetEntity: Participant
+            inversedBy: events
+        reminders:
+            targetEntity: Reminder
+            inversedBy: events

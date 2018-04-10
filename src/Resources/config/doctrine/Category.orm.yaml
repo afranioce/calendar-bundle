@@ -1,0 +1,13 @@
+Afranioce\CalendarBundle\Model\Category:
+    type: entity
+    fields:
+        name:
+              type: string
+              length: 150
+        color:
+              type: string
+              length: 30
+    oneToMany:
+        events:
+            targetEntity: Event
+            inversedBy: category

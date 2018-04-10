@@ -1,0 +1,15 @@
+Afranioce\CalendarBundle\Model\Reminder:
+    type: entity
+    fields:
+        beforeOn:
+              type: smallint
+              column: before_on
+        unitOfTime:
+              type: smallint
+              column: unit_of_time
+        notify:
+              type: smallint
+    manyToOne:
+        order:
+            targetEntity: Event
+            inversedBy: reminders

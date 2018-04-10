@@ -1,0 +1,27 @@
+{
+    "name": "afranioce/calendar",
+    "description": "A bundle for handling events in calendar",
+    "type": "symfony-bundle",
+    "require": {
+        "php": ">=7.1",
+        "php-intl": "*",
+        "symfony/twig-bundle": "^4.0",
+        "symfony/framework-bundle": "^4.0",
+        "symfony/dependency-injection": "^4.0",
+        "symfony/yaml": "^4.0",
+        "doctrine/doctrine-bundle": "^1.6"
+    },
+    "autoload": {
+        "psr-4": { "Afranioce\\CalendarBundle\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Afranioce\\CalendarBundle\\Tests\\": "tests/" }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Afranio Martins",
+            "email": "afranioce@gmail.com"
+        }
+    ]
+}
