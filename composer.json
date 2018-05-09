@@ -3,8 +3,8 @@
     "description": "A bundle for handling events in calendar",
     "type": "symfony-bundle",
     "require": {
-        "php": ">=7.1",
-        "php-intl": "*",
+        "php": "^7.1",
+        "ext-intl": "*",
         "symfony/twig-bundle": "^4.0",
         "symfony/framework-bundle": "^4.0",
         "symfony/dependency-injection": "^4.0",
