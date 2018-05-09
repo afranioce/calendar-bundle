@@ -18,40 +18,40 @@ interface ReminderInterface
     /**
      * @return EventInterface
      */
-    public function getEvent();
+    public function getEvent(): ?EventInterface;
 
     /**
      * @param EventInterface $event
      */
-    public function setEvent(EventInterface $event);
+    public function setEvent(?EventInterface $event);
 
     /**
      * @return int
      */
-    public function getBeforeOn();
+    public function getBeforeOn(): ?int;
 
     /**
      * @param int $beforeOn
      */
-    public function setBeforeOn(int $beforeOn);
+    public function setBeforeOn(?int $beforeOn);
 
     /**
      * @return int
      */
-    public function getUnityOfTime();
+    public function getUnitOfTime(): ?int;
 
     /**
-     * @param int $unityOfTime
+     * @param int $unitOfTime
      */
-    public function setUnityOfTime(int $unityOfTime);
+    public function setUnitOfTime(?int $unitOfTime);
 
     /**
      * @return int
      */
-    public function getNotifyBy();
+    public function getNotifyBy(): ?int;
 
     /**
      * @param int $notifyBy
      */
-    public function setNotifyBy(int $notifyBy);
+    public function setNotifyBy(?int $notifyBy);
 }

@@ -1,0 +1,13 @@
+{{ namespace }}\Entity\Reminder:
+    table: calendar__reminder
+    type: entity
+    id:
+        id:
+            type: integer
+            name: id
+            generator:
+                strategy: AUTO
+    manyToOne:
+        order:
+            targetEntity: Event
+            inversedBy: reminders

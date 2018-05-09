@@ -1,0 +1,22 @@
+{{ namespace }}\Entity\Event:
+    table: calendar__event
+    type: entity
+    id:
+        id:
+            type: integer
+            name: id
+            generator:
+                strategy: AUTO
+    manyToOne:
+        category:
+            targetEntity: Category
+            inversedBy: events
+            cascade: ["persist"]
+    oneToMany:
+        metadata:
+            targetEntity: Metadata
+            inversedBy: event
+    manyToMany:
+        reminders:
+            targetEntity: Reminder
+            inversedBy: events

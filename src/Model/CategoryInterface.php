@@ -3,6 +3,7 @@
 namespace Afranioce\CalendarBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @author Afranio Martins <afranioce@gmail.com>
@@ -22,7 +23,7 @@ interface CategoryInterface
     /**
      * @param string $name
      */
-    public function setName(string $name);
+    public function setName(?string $name);
 
     /**
      * @return string
@@ -32,12 +33,12 @@ interface CategoryInterface
     /**
      * @param string $color
      */
-    public function setColor(string $color);
+    public function setColor(?string $color);
 
     /**
-     * @return ArrayCollection
+     * @return Collection|EventInterface[]
      */
-    public function getEvents();
+    public function getEvents(): Collection;
 
     /**
      * @param EventInterface $event

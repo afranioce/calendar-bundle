@@ -1,0 +1,35 @@
+Afranioce\CalendarBundle\Entity\BaseEvent:
+    type: mappedSuperclass
+    fields:
+        title:
+            type: string
+            length: 190
+            nullable: false
+        description:
+            type: text
+            nullable: false
+        startDate:
+            type: datetime
+            column: start_date
+            nullable: false
+        endDate:
+            type: datetime
+            column: end_date
+        createdAt:
+            type: datetime
+            column: created_at
+            nullable: false
+        updatedAt:
+            type: datetime
+            column: updated_at
+        isFullDay:
+            type: boolean
+            column: is_full_day
+            options:
+                default: 0
+        color:
+            type: string
+            length: 30
+    lifecycleCallbacks:
+        prePersist: [ prePersist ]
+        preUpdate: [ preUpdate ]

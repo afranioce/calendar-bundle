@@ -1,0 +1,12 @@
+Afranioce\CalendarBundle\Entity\BaseReminder:
+    type: mappedSuperclass
+    fields:
+        beforeOn:
+            type: smallint
+            column: before_on
+        unitOfTime:
+            type: smallint
+            column: unit_of_time
+        notifyBy:
+            type: smallint
+            column: notify_by

@@ -1,0 +1,14 @@
+{{ namespace }}\Entity\Category:
+    table: calendar__category
+    type: entity
+    id:
+        id:
+            type: integer
+            name: id
+            generator:
+                strategy: AUTO
+    oneToMany:
+        events:
+            targetEntity: Event
+            mappedBy: category
+            cascade: ["persist"]

@@ -2,8 +2,10 @@
 
 namespace Afranioce\CalendarBundle\Model;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Afranioce\CalendarBundle\Model\EventInterface;
+use Symfony\Component\Cache\Tests\Adapter\PhpArrayAdapterWithFallbackTest;
 
 /**
  * @author Afranio Martins <afranioce@gmail.com>
@@ -41,9 +43,14 @@ class Event implements EventInterface
     protected $createdAt;
 
     /**
+     * @var \DateTime
+     */
+    protected $updatedAt;
+
+    /**
      * @var bool
      */
-    protected $isFullDay;
+    protected $isFullDay = false;
 
     /**
      * @var CategoryInterface
@@ -56,9 +63,9 @@ class Event implements EventInterface
     protected $color;
 
     /**
-     * @var ArrayCollection[]|ParticipantInterface[]
+     * @var ArrayCollection[]|EventMetadataInterface[]
      */
-    protected $participants;
+    protected $metadata;
 
     /**
      * @var ArrayCollection|ReminderInterface[]
@@ -67,14 +74,31 @@ class Event implements EventInterface
 
     public function __construct()
     {
-        $this->participants = new ArrayCollection();
+        $this->metadata = new ArrayCollection();
         $this->reminders = new ArrayCollection();
     }
 
     /**
-     * Get the value of id
-     *
-     * @return  mixed
+     * {@inheritdoc}
+     */
+    public function __toString()
+    {
+        return (string)$this->getName() ? : 'n/a';
+    }
+
+    public function prePersist()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
+
+    public function preUpdate()
+    {
+        $this->setUpdatedAt(new \DateTime());
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -82,23 +106,17 @@ class Event implements EventInterface
     }
 
     /**
-     * Get the value of title
-     *
-     * @return  string
+     * {@inheritdoc}
      */
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
     /**
-     * Set the value of title
-     *
-     * @param  string  $title
-     *
-     * @return  self
+     * {@inheritdoc}
      */
-    public function setTitle(string $title)
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
@@ -106,23 +124,17 @@ class Event implements EventInterface
     }
 
     /**
-     * Get the value of description
-     *
-     * @return  string
+     * {@inheritdoc}
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
     /**
-     * Set the value of description
-     *
-     * @param  string  $description
-     *
-     * @return  self
+     * {@inheritdoc}
      */
-    public function setDescription(string $description)
+    public function setDescription(? string $description): self
     {
         $this->description = $description;
 
@@ -130,23 +142,17 @@ class Event implements EventInterface
     }
 
     /**
-     * Get the value of startDate
-     *
-     * @return  \DateTime
+     * {@inheritdoc}
      */
-    public function getStartDate()
+    public function getStartDate(): ? \DateTimeInterface
     {
         return $this->startDate;
     }
 
     /**
-     * Set the value of startDate
-     *
-     * @param  \DateTime  $startDate
-     *
-     * @return  self
+     * {@inheritdoc}
      */
-    public function setStartDate(\DateTime $startDate)
+    public function setStartDate(? \DateTimeInterface $startDate): self
     {
         $this->startDate = $startDate;
 
@@ -154,47 +160,32 @@ class Event implements EventInterface
     }
 
     /**
-     * Get the value of endDate
-     *
-     * @return  \DateTime
+     * {@inheritdoc}
      */
-    public function getEndDate()
+    public function getEndDate(): ? \DateTimeInterface
     {
         return $this->endDate;
     }
 
     /**
-     * Set the value of endDate
-     *
-     * @param  \DateTime  $endDate
-     *
-     * @return  self
+     * {@inheritdoc}
      */
-    public function setEndDate(\DateTime $endDate)
+    public function setEndDate(?\DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
 
         return $this;
     }
 
-    /**
-     * Get the value of createdAt
-     *
-     * @return  \DateTime
-     */
-    public function getCreatedAt()
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
     /**
-     * Set the value of createdAt
-     *
-     * @param  \DateTime  $createdAt
-     *
-     * @return  self
+     * {@inheritdoc}
      */
-    public function setCreatedAt(\DateTime $createdAt)
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -202,23 +193,35 @@ class Event implements EventInterface
     }
 
     /**
-     * Get the value of isFullDay
-     *
-     * @return  bool
+     * {@inheritdoc}
      */
-    public function getIsFullDay()
+    public function getUpdatedAt(): ? \DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): ?\DateTimeInterface
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getIsFullDay(): bool
     {
         return $this->isFullDay;
     }
 
     /**
-     * Set the value of isFullDay
-     *
-     * @param  bool  $isFullDay
-     *
-     * @return  self
+     * {@inheritdoc}
      */
-    public function setIsFullDay(bool $isFullDay)
+    public function setIsFullDay(bool $isFullDay): self
     {
         $this->isFullDay = $isFullDay;
 
@@ -226,23 +229,17 @@ class Event implements EventInterface
     }
 
     /**
-     * Get the value of category
-     *
-     * @return  CategoryInterface
+     * {@inheritdoc}
      */
-    public function getCategory()
+    public function getCategory(): ?CategoryInterface
     {
         return $this->category;
     }
 
     /**
-     * Set the value of category
-     *
-     * @param  CategoryInterface  $category
-     *
-     * @return  self
+     * {@inheritdoc}
      */
-    public function setCategory(CategoryInterface $category)
+    public function setCategory(?CategoryInterface $category): self
     {
         $this->category = $category;
 
@@ -250,9 +247,7 @@ class Event implements EventInterface
     }
 
     /**
-     * Get the value of color
-     *
-     * @return  mixed|null
+     * {@inheritdoc}
      */
     public function getColor()
     {
@@ -260,13 +255,9 @@ class Event implements EventInterface
     }
 
     /**
-     * Set the value of color
-     *
-     * @param  mixed|null  $color
-     *
-     * @return  self
+     * {@inheritdoc}
      */
-    public function setColor($color)
+    public function setColor($color): self
     {
         $this->color = $color;
 
@@ -274,48 +265,45 @@ class Event implements EventInterface
     }
 
     /**
-     * @return ArrayCollection|ParticipantInterface[]
+     * {@inheritdoc}
      */
-    public function getParticipants()
+    public function getMetadata(): Collection
     {
-        return $this->participants;
+        return $this->metadata;
     }
 
     /**
-     * @param ParticipantInterface $participant
-     * @return self
+     * {@inheritdoc}
      */
-    public function removeParticipant(ParticipantInterface $participant)
+    public function removeMetadata(EventMetadataInterface $metadata): self
     {
-        $this->participants->removeElement($participant);
+        $this->metadata->removeElement($metadata);
 
         return $this;
     }
 
     /**
-     * @param ParticipantInterface $participant
-     * @return self
+     * {@inheritdoc}
      */
-    public function addParticipant(ParticipantInterface $participant)
+    public function addMetadata(EventMetadataInterface $metadata): self
     {
-        $this->participants->add($participant);
+        $this->metadata->add($metadata);
 
         return $this;
     }
 
     /**
-     * @return ArrayCollection|ReminderInterface[]
+     * {@inheritdoc}
      */
-    public function getReminders()
+    public function getReminders(): Collection
     {
         return $this->reminders;
     }
 
     /**
-     * @param ReminderInterface $reminder
-     * @return self
+     * {@inheritdoc}
      */
-    public function addReminders(ReminderInterface $reminder)
+    public function addReminders(ReminderInterface $reminder): self
     {
         $this->reminders->add($reminder);
 
@@ -323,11 +311,12 @@ class Event implements EventInterface
     }
 
     /**
-     * @param ReminderInterface $reminder
-     * @return self
+     * {@inheritdoc}
      */
-    public function removeReminder(ReminderInterface $reminder)
+    public function removeReminder(ReminderInterface $reminder): self
     {
         $this->reminders->removeElement($reminder);
+
+        return $this;
     }
 }

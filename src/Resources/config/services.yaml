@@ -1,0 +1,10 @@
+services:
+    afranioce_calendar.serializer.event:
+        class: Afranioce\AfranioceBundle\Serializer\Event
+        public: false
+
+    afranioce_calendar.calendar.event:
+        class: Afranioce\AfranioceBundle\Calendar\Event
+        arguments:
+            - "@afranioce_calendar.serializer.event"
+            - "@event_dispatcher"

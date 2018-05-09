@@ -3,6 +3,7 @@
 namespace Afranioce\CalendarBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @author Afranio Martins <afranioce@gmail.com>
@@ -19,65 +20,71 @@ interface EventInterface
     /**
      * @return string
      */
-    public function getTitle();
+    public function getTitle(): ?string;
 
     /**
      * @param string $title
+     * @return self
      */
     public function setTitle(string $title);
 
     /**
      * @return string|null
      */
-    public function getDescription();
+    public function getDescription(): ?string;
 
     /**
      * @param string|null $description
+     * @return self
      */
-    public function setDescription($description = null);
+    public function setDescription(?string $description);
 
     /**
-     * @return \Datetime
+     * @return \DateTimeInterface
      */
-    public function getStartDate();
+    public function getStartDate(): ?\DateTimeInterface;
 
     /**
-     * @param \DateTime $start
+     * @param \DateTimeInterface $start
+     * @return self
      */
-    public function setStartDate(\DateTime $start);
+    public function setStartDate(\DateTimeInterface $start);
 
     /**
-     * @return void
+     * @return \DateTimeInterface
      */
-    public function getEndDate();
+    public function getEndDate(): ?\DateTimeInterface;
 
     /**
-     * @param \DateTime $end
+     * @param \DateTimeInterface $end
+     * @return self
      */
-    public function setEndDate(\DateTime $end);
+    public function setEndDate(?\DateTimeInterface $end);
 
     /**
-     * @return \DateTime
+     * @return \DateTimeInterface
      */
-    public function getCreatedAt();
+    public function getCreatedAt(): ?\DateTimeInterface;
 
     /**
      * @return bool
      */
-    public function getIsFullDay();
+    public function getIsFullDay(): bool;
 
     /**
      * @param bool $isFullDay
+     * @return self
      */
     public function setIsFullDay(bool $isFullDay);
 
     /**
      * @return CategoryInterface
      */
-    public function getCategory();
+    public function getCategory(): ?CategoryInterface;
 
     /**
      * @param CategoryInterface $category
+     * @return self
      */
     public function setCategory(CategoryInterface $category);
 
@@ -92,24 +99,24 @@ interface EventInterface
     public function setColor($color);
 
     /**
-     * @return ArrayCollection
+     * @return Collection|EventMetadataInterface[]
      */
-    public function getParticipants();
+    public function getMetadata(): Collection;
 
     /**
-     * @param ParticipantInterface $participant
+     * @param EventMetadataInterface $metadata
      */
-    public function addParticipant(ParticipantInterface $participant);
+    public function addMetadata(EventMetadataInterface $metadata);
 
     /**
-     * @param ParticipantInterface $participant
+     * @param EventMetadataInterface $metadata
      */
-    public function removeParticipant(ParticipantInterface $participant);
+    public function removeMetadata(EventMetadataInterface $metadata);
 
     /**
-     * @return ArrayCollection
+     * @return Collection|ReminderInterface[]
      */
-    public function getReminders();
+    public function getReminders(): Collection;
 
     /**
      * @param ReminderInterface $reminder

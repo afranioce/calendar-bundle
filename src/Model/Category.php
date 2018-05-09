@@ -3,6 +3,7 @@
 namespace Afranioce\CalendarBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @author Afranio Martins <afranioce@gmail.com>
@@ -30,7 +31,36 @@ class Category implements CategoryInterface
     protected $color;
 
     /**
-     * Get the value of id
+     * @var \DateTime
+     */
+    protected $createdAt;
+
+    /**
+     * @var \DateTime
+     */
+    protected $updatedAt;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __toString()
+    {
+        return (string)$this->getName() ? : 'n/a';
+    }
+
+    public function prePersist()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
+
+    public function preUpdate()
+    {
+        $this->setUpdatedAt(new \DateTime());
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -38,19 +68,17 @@ class Category implements CategoryInterface
     }
 
     /**
-     * Get the value of name
+     * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
     /**
-     * Set the value of name
-     *
-     * @return  self
+     * {@inheritdoc}
      */
-    public function setName($name)
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -58,18 +86,17 @@ class Category implements CategoryInterface
     }
 
     /**
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
-    public function getEvents()
+    public function getEvents(): Collection
     {
         return $this->events;
     }
 
     /**
-     * @param EventInterface $event
-     * @return self
+     * {@inheritdoc}
      */
-    public function addEvent(EventInterface $event)
+    public function addEvent(EventInterface $event): self
     {
         $this->events->add($event);
 
@@ -77,10 +104,9 @@ class Category implements CategoryInterface
     }
 
     /**
-     * @param EventInterface $event
-     * @return self
+     * {@inheritdoc}
      */
-    public function removeEvent(EventInterface $event)
+    public function removeEvent(EventInterface $event): self
     {
         $this->events->removeElement($event);
 
@@ -88,9 +114,7 @@ class Category implements CategoryInterface
     }
 
     /**
-     * Get the value of color
-     *
-     * @return  string
+     * {@inheritdoc}
      */
     public function getColor()
     {
@@ -98,15 +122,47 @@ class Category implements CategoryInterface
     }
 
     /**
-     * Set the value of color
-     *
-     * @param  string  $color
-     *
-     * @return  self
+     * {@inheritdoc}
      */
-    public function setColor(string $color)
+    public function setColor(?string $color): self
     {
         $this->color = $color;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

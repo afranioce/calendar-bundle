@@ -1,0 +1,20 @@
+Afranioce\CalendarBundle\Entity\BaseCategory:
+    type: mappedSuperclass
+    fields:
+        name:
+            type: string
+            length: 150
+            nullable: false
+        color:
+            type: string
+            length: 30
+        createdAt:
+            type: datetime
+            column: created_at
+            nullable: false
+        updatedAt:
+            type: datetime
+            column: updated_at
+    lifecycleCallbacks:
+        prePersist: [ prePersist ]
+        preUpdate: [ preUpdate ]

@@ -1,0 +1,16 @@
+{{ namespace }}\Entity\EventMetadata:
+    table: calendar__event_metadata
+    type: entity
+    id:
+        id:
+            type: integer
+            name: id
+            generator:
+                strategy: AUTO
+    manyToOne:
+#        participant:
+#            targetEntity: App\Entity\User
+        event:
+            targetEntity: Event
+            mappedBy: metadata
+            cascade: ["persist"]

@@ -1,0 +1,2 @@
+Afranioce\CalendarBundle\Entity\BaseEventMetadata:
+    type: mappedSuperclass
